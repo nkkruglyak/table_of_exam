@@ -24,10 +24,12 @@ import xlrd
 import xlwt
 from time import time
 import os
-from Send_meil import send_mail, send
+from send_mail import send_mail, send
 
-"""Никуда без декораторов!!!"""
+
 def with_time_printing(f):
+    """Никуда без декораторов!!!"""
+
     def decorated(*args):
         start = time()
         res = f(*args)
@@ -36,11 +38,8 @@ def with_time_printing(f):
     return decorated
 
 
-"""Чтение страниц rckoi.Обработка кода страницы rckoi."""
-
-
-
 def read_html_cod(url_ege,url_gia):
+    """Чтение страниц rckoi.Обработка кода страницы rckoi."""
     ege_11 = requests.get(url_ege)
     name_11 = 'exams.txt'
     f = open(name_11,'w')
@@ -129,10 +128,6 @@ def write_slice_data_of_school(table_of_data,name_school,data_of_exam):
         print(name_table_of_data_school)
 
 
-
-
-
-
 def no_empty(file):
     rb = xlrd.open_workbook(file)
     sheet = rb.sheet_by_index(0)
@@ -206,7 +201,7 @@ def find_name_str(name_person,list_name_table_school):
             record = [sheet.row_values(i) for i in range(1, all_len) if name_person in str(sheet.row_slice(i)[5])]
             list_str_of_person = list_str_of_person + record
         except IndexError:
-            None
+            pass
 
     return list_str_of_person
 
@@ -218,6 +213,7 @@ def list_of_person_records(name_person,cod_text,list_name_table_school):
 
 
 def write_person_table(name_person,list_str_of_person):
+    # XXX
     if 'Гадас Роман' in name_person:
         print(list_str_of_person)
     try:
@@ -264,12 +260,6 @@ def write_lists_of_persons_records(list_of_persons,cod_text):
         print(table)
         delete_file(table)
     return bad_person
-
-
-"""не нужно"""
-def exist_person_file(name_person):
-    way = os.path.join(os.path.abspath(os.path.dirname(__file__)), name_person+'.xls')
-    return os.path.exists(way)
 
 
 def list_of_persons_and_mails(file):
