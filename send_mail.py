@@ -1,3 +1,11 @@
+def get_credentials():
+    with open('credentials.txt') as f:
+        # файл, в первой строчке которого находится логин, а во второй пароль
+        login = f.readline().strip()
+        password = f.readline().strip()
+    return login, password
+
+
 def send(text, subject, from_email, to_email, host='smtp.gmail.com'):
     # Import smtplib for the actual sending function
     import smtplib
@@ -23,7 +31,7 @@ def send(text, subject, from_email, to_email, host='smtp.gmail.com'):
     # envelope header.
     s = smtplib.SMTP(host)
     s.starttls()
-    s.login('n.k.kruglyak', 'password')
+    s.login(*get_credentials())
     s.sendmail(from_email, [to_email], msg.as_string())
     s.quit()
 
@@ -62,7 +70,7 @@ def send_mail(send_from, send_to, subject, text, files=None,
     smtp = smtplib.SMTP(server)
     smtp.starttls()
     #print(server)
-    smtp.login('n.k.kruglyak', 'password')
+    smtp.login(*get_credentials())
     smtp.sendmail(send_from, send_to, msg.as_string())
     smtp.quit()
 
